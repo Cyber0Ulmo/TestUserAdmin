@@ -26,7 +26,7 @@ public class ServiceAuthenticationTest {
     @Test
     public void verifyAuthenticationWithParametersValid(){
         String cpf = "000.000.007-00";
-        String password = "IssoNaoEUmaSenha";
+        String password = "IssoEUmaSenha";
         when(repository.getUser(cpf, password)).thenReturn(new User(01, "Anderson", cpf, password, LocalDateTime.now(), LocalDateTime.now(),true));
         boolean result = serviceAut.authentication(cpf, password);
         assertEquals(true, result);
