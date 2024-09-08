@@ -1,8 +1,10 @@
 package com.br.Empiricus.repository.interfaces;
 
-import com.br.Empiricus.domain.User;
+import com.br.Empiricus.domain.user.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 
-public interface RepositoryUser  {
+public interface RepositoryUser extends JpaRepository<User, Integer> {
 
-    User findByCpf(String cpf);
+    UserDetails findByCpf(String cpf);
 }

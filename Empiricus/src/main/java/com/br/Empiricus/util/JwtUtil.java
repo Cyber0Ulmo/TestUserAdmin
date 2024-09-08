@@ -1,11 +1,10 @@
 package com.br.Empiricus.util;
 
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,13 +28,35 @@ public class JwtUtil {
 
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
+        try {
+            final Claims claims = extractAllClaims(token);
+            return claimsResolver.apply(claims);
+        } catch (JwtException e) {
+            System.out.println("Erro ao extrair claims do token: " + e.getMessage());
+            throw new RuntimeException("Erro ao extrair claims", e);
+        }
     }
 
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        try {
+            return Jwts.parser()
+                    .setSigningKey(SECRET_KEY)
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            System.out.println("Token JWT expirado.");
+            throw new RuntimeException("Token expirado", e);
+        } catch (MalformedJwtException e) {
+            System.out.println("Token JWT malformado.");
+            throw new RuntimeException("Token malformado", e);
+        } catch (SignatureException e) {
+            System.out.println("Assinatura do Token JWT inválida.");
+            throw new RuntimeException("Assinatura inválida", e);
+        } catch (JwtException e) {
+            System.out.println("Erro ao processar o Token JWT.");
+            throw new RuntimeException("Erro ao processar o token JWT", e);
+        }
     }
 
 
@@ -50,16 +71,20 @@ public class JwtUtil {
     }
 
 
-    private String createToken(Map<String, Object> claims, String subject) {
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                .compact();
+    public String createToken(Map<String, Object> claims, String subject) {
+        try {
+            return Jwts.builder()
+                    .setClaims(claims)
+                    .setSubject(subject)
+                    .setIssuedAt(new Date(System.currentTimeMillis()))
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 3))
+                    .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                    .compact();
+        } catch (JwtException e) {
+            System.out.println("Erro ao gerar o token JWT: " + e.getMessage());
+            throw new RuntimeException("Erro ao gerar o token JWT", e);
+        }
     }
-
 
     public Boolean validateToken(String token, String username) {
         final String extractedUsername = extractUsername(token);
