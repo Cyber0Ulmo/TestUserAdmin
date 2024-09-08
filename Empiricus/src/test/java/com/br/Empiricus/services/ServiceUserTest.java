@@ -13,8 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-
-import static jdk.internal.org.objectweb.asm.util.CheckClassAdapter.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
