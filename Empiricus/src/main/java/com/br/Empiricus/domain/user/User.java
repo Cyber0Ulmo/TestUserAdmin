@@ -61,10 +61,6 @@ public class User implements UserDetails {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -87,10 +83,6 @@ public class User implements UserDetails {
 
     public LocalDateTime getCreationDate() {
         return creationDate;
-    }
-
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
     }
 
     public LocalDateTime getUpdateDate() {

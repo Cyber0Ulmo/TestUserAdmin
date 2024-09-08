@@ -16,15 +16,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class ControllerUserAdmin {
 
+    @PostMapping
+    public ResponseEntity resgister(@RequestBody @Valid UserDTO userData){
+        try {
+            if (userService.loadUserByUsername(userData.cpf()) != null) return ResponseEntity.badRequest().build();
+            userService.registerUser(userData);
+            return ResponseEntity.noContent().build();
+        } catch (Exception ex){
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @Autowired
     private ServiceUser userService;
-
-    @PostMapping("/register")
-    public ResponseEntity resgister(@RequestBody @Valid UserDTO userData){
-        if(userService.loadUserByUsername(userData.cpf()) != null) return ResponseEntity.badRequest().build();
-        userService.registerUser(userData);
-        return ResponseEntity.ok().build();
-    }
 
     @GetMapping("/getbycpf")
     public ResponseEntity getUser(@RequestParam @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "O CPF deve estar no formato XXX.XXX.XXX-XX") String cpf) {
@@ -32,14 +36,20 @@ public class ControllerUserAdmin {
             return ResponseEntity.ok(userService.getUserByCpf(cpf));
         } catch (UserNotFoundException exception){
             return ResponseEntity.notFound().build();
+        } catch (Exception ex){
+            return ResponseEntity.internalServerError().build();
         }
     }
     @GetMapping("/getall")
     public ResponseEntity getAll(){
-        return ResponseEntity.ok(userService.getUsers());
+        try{
+            return ResponseEntity.ok(userService.getUsers());
+        } catch (Exception ex){
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
-    @PostMapping("/update")
+    @PutMapping
     public ResponseEntity updateUser(@RequestBody @Valid UserDTO userDTO){
         try {
             userService.updateUser(userDTO);
@@ -47,16 +57,20 @@ public class ControllerUserAdmin {
         }
         catch (UserNotFoundException exception){
             return ResponseEntity.notFound().build();
+        } catch (Exception ex){
+            return ResponseEntity.internalServerError().build();
         }
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity deleteUser(@RequestParam @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "O CPF deve estar no formato XXX.XXX.XXX-XX") String cpf){
         try {
             userService.deleteUser(cpf);
             return ResponseEntity.ok().build();
         }catch (UserNotFoundException exception){
             return ResponseEntity.notFound().build();
+        } catch (Exception ex){
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

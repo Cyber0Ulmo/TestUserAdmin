@@ -80,4 +80,5 @@ public class ServiceUserImpl implements ServiceUser {
             throw new UserNotFoundException("CPF não encontrado");
         }
     }
+
 }
