@@ -8,8 +8,8 @@ import com.br.Empiricus.services.interfaces.ServiceEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ServiceEmailImpl implements ServiceEmail {
@@ -41,15 +41,23 @@ public class ServiceEmailImpl implements ServiceEmail {
     }
 
     @Override
-    public void update(String oldEmail, String newEmail){
-        Email emailToUpdate = get(oldEmail);
+    public void update(String email, String newEmail){
+        Email emailToUpdate = repository.findByEmail(email);
+        if (emailToUpdate == null) {
+            throw new EmailNotFoundException("Email not found: " + email);
+        }
         emailToUpdate.setEmail(newEmail);
+        emailToUpdate.setCreationDate(LocalDateTime.now());
+        repository.save(emailToUpdate);
     }
 
     @Override
-    public void delete(String email){
-        Email emailToDelete = get(email);
-        repository.deleteById(emailToDelete.getId());
+    public void delete(String email) {
+        Email emailToDelete = repository.findByEmail(email);
+        if (emailToDelete == null) {
+            throw new EmailNotFoundException("Email não encontrado: " + email);
+        }
+        repository.delete(emailToDelete);
     }
 
 }

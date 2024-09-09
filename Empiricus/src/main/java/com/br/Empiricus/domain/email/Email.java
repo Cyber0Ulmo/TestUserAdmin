@@ -1,6 +1,7 @@
 package com.br.Empiricus.domain.email;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ public class Email {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "creation_date")
@@ -30,6 +31,7 @@ public class Email {
     public Email() {
     }
 
+    @Builder
     public Email(String email, Integer userId) {
         this.email = email;
         this.creationDate = LocalDateTime.now();
@@ -37,6 +39,7 @@ public class Email {
         this.userId = userId;
     }
 
+    @Builder
     public Email(Integer id, String email, LocalDateTime creationDate, LocalDateTime updateDate, Integer userId) {
         this.id = id;
         this.email = email;

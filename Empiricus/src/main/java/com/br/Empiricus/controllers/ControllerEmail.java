@@ -66,12 +66,12 @@ public class ControllerEmail {
     @PutMapping
     public ResponseEntity update(@RequestBody @Valid EmailUpdateDTO emailData){
         try{
-            emailService.update(emailData.oldEmail(), emailData.newEmail());
+            emailService.update(emailData.email(), emailData.newEmail());
             serviceSendMail.sendMailNotification(emailData.cpf(), emailData.newEmail());
             return ResponseEntity.noContent().build();
         }catch (EmailNotFoundException emiEx){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Não há emails para esse usuário com o ID especificado.");
+                    .body("Não há emails para esse usuário especificado.");
 
         } catch (Exception ex){
             return ResponseEntity.internalServerError().build();
@@ -79,7 +79,7 @@ public class ControllerEmail {
     }
 
     @DeleteMapping
-    public ResponseEntity delete(@RequestParam @Valid EmailDTO emailData){
+    public ResponseEntity delete(@RequestBody @Valid EmailDTO emailData){
         try {
             emailService.delete(emailData.email());
             serviceSendMail.sendMailNotification(emailData.cpf(), emailData.email());
@@ -87,7 +87,6 @@ public class ControllerEmail {
         } catch (EmailNotFoundException emiEx){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Não há emails para esse usuário com o ID especificado.");
-
         } catch (Exception ex){
             return ResponseEntity.internalServerError().build();
         }
