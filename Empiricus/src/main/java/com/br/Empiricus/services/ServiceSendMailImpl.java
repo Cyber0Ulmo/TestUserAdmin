@@ -29,20 +29,23 @@ public class ServiceSendMailImpl implements ServiceSendMail {
 
 
     @Override
-    public String sendMailNotification(String destiny, String cpf, String email ){
+    public void sendMailNotification(String cpf, String email){
         List<User> usersAdmins = getAdmins();
+        if (usersAdmins == null){
+            throw new RuntimeException("Não existem usuários do tipo admin. ");
+        }
         usersAdmins.forEach(user -> {
             List<Email> adminEmails = getEmailAdmins(user);
-            adminEmails.forEach(emailAdmin -> {
-                send(emailAdmin.getEmail(), cpf, email);
-            });
-
+            if (adminEmails != null){
+                adminEmails.forEach(emailAdmin -> {
+                    send(emailAdmin.getEmail(), cpf, email);
+                });
+            }
         });
-        return send(destiny, cpf, email);
     }
 
     private List<Email> getEmailAdmins(User user) {
-        return emailRepository.findByUserId(user.getId());
+            return emailRepository.findByUserId(user.getId());
     }
 
     @Async("asyncTaskExecutor")

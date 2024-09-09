@@ -49,18 +49,16 @@ public class ServiceSendMailTest {
     @Test
     void testSendMailNotification() {
         doNothing().when(javaMailSender).send(Mockito.any(SimpleMailMessage.class));
-        String result = serviceSendMail.sendMailNotification("recipient@example.com", "12345678901", "admin@example.com");
+        serviceSendMail.sendMailNotification( "12345678901", "admin@example.com");
         verify(javaMailSender, times(1)).send(Mockito.any(SimpleMailMessage.class));
-        assertEquals("Email sended", result);
     }
 
     @Test
     void testSendMailNotificationWithError() {
         doThrow(new RuntimeException("Error sending email")).when(javaMailSender).send(Mockito.any(SimpleMailMessage.class));
-        String result = serviceSendMail.sendMailNotification("recipient@example.com", "12345678901", "admin@example.com");
+        serviceSendMail.sendMailNotification( "12345678901", "admin@example.com");
 
         verify(javaMailSender, times(1)).send(Mockito.any(SimpleMailMessage.class));
-        assertEquals("Errot to send emailError sending email", result);
     }
 }
 

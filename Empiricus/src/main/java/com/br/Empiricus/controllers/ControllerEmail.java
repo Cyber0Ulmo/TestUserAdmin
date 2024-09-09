@@ -7,6 +7,7 @@ import com.br.Empiricus.domain.DTO.UserResponseDTO;
 import com.br.Empiricus.domain.exceptions.EmailNotFoundException;
 import com.br.Empiricus.domain.exceptions.UserNotFoundException;
 import com.br.Empiricus.services.interfaces.ServiceEmail;
+import com.br.Empiricus.services.interfaces.ServiceSendMail;
 import com.br.Empiricus.services.interfaces.ServiceUser;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -25,12 +26,16 @@ public class ControllerEmail {
     @Autowired
     private ServiceUser serviceUser;
 
+    @Autowired
+    private ServiceSendMail serviceSendMail;
+
 
     @PostMapping
     public ResponseEntity register(@RequestBody @Valid EmailDTO emailData){
         try {
             UserResponseDTO user = serviceUser.getUserByCpf(emailData.cpf());
             emailService.registerEmail(emailData.email(), user.id());
+            serviceSendMail.sendMailNotification(emailData.cpf(), emailData.email());
             return ResponseEntity.noContent().build();
         } catch (UserNotFoundException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -61,7 +66,8 @@ public class ControllerEmail {
     @PutMapping
     public ResponseEntity update(@RequestBody @Valid EmailUpdateDTO emailData){
         try{
-            emailService.update(emailData.id(), emailData.email());
+            emailService.update(emailData.oldEmail(), emailData.newEmail());
+            serviceSendMail.sendMailNotification(emailData.cpf(), emailData.newEmail());
             return ResponseEntity.noContent().build();
         }catch (EmailNotFoundException emiEx){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -73,9 +79,10 @@ public class ControllerEmail {
     }
 
     @DeleteMapping
-    public ResponseEntity delete(@RequestParam @Valid int id){
+    public ResponseEntity delete(@RequestParam @Valid EmailDTO emailData){
         try {
-            emailService.delete(id);
+            emailService.delete(emailData.email());
+            serviceSendMail.sendMailNotification(emailData.cpf(), emailData.email());
             return ResponseEntity.noContent().build();
         } catch (EmailNotFoundException emiEx){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

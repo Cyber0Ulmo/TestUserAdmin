@@ -65,7 +65,7 @@ public class ServiceEmailTest {
         email.setId(id);
 
         when(repository.findById(id)).thenReturn(Optional.of(email));
-        serviceEmail.update(id, newEmail);
+        serviceEmail.update(email.getEmail(), newEmail);
 
         assertEquals(newEmail, email.getEmail());
     }
@@ -78,7 +78,7 @@ public class ServiceEmailTest {
         email.setId(id);
 
         when(repository.findById(id)).thenReturn(Optional.of(email));
-        serviceEmail.delete(id);
+        serviceEmail.delete(email.getEmail());
 
         verify(repository, times(1)).deleteById(id);
     }

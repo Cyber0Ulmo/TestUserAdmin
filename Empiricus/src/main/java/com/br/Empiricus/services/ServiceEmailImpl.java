@@ -26,26 +26,30 @@ public class ServiceEmailImpl implements ServiceEmail {
     @Override
     public List<Email> getEmails(int userId){
         List<Email> emails = repository.findByUserId(userId);
-        if (emails == null){
+        if (emails == null  || emails.isEmpty()){
             throw new EmailNotFoundException("Lista de email não encontrada com o Id fornecido. ");
         }
         return emails;
     }
-    private Email get(int id){
-        Optional<Email> emailToGet = repository.findById(id);
-        return emailToGet.orElseThrow(() -> new EmailNotFoundException("Email não encontrado"));
+
+    private Email get(String email){
+        Email emailToGet = repository.findByEmail(email);
+        if (emailToGet == null){
+            throw new EmailNotFoundException(" email não encontrado.");
+        }
+        return emailToGet;
     }
 
     @Override
-    public void update(int id, String newEmail){
-        Email emailToUpdate = get(id);
+    public void update(String oldEmail, String newEmail){
+        Email emailToUpdate = get(oldEmail);
         emailToUpdate.setEmail(newEmail);
     }
 
     @Override
-    public void delete(int id){
-        get(id);
-        repository.deleteById(id);
+    public void delete(String email){
+        Email emailToDelete = get(email);
+        repository.deleteById(emailToDelete.getId());
     }
 
 }
