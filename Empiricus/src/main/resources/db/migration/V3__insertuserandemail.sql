@@ -3,6 +3,3 @@ VALUES ('Admin', '001.002.007-90', '$2a$12$FT.wUhLzfl4UraVRcHPJY..SJY57Jl.C0fNN2
 );
 -- senha = "strong_password"
 
-INSERT INTO emails (email)
-VALUES ('jane.smith@example.com'),
-       ('alice.johnson@example.com');
