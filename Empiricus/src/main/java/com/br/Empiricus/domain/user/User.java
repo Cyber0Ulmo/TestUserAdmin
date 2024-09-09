@@ -12,7 +12,6 @@ import java.util.List;
 
 @Table(name = "users")
 @Entity
-@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -37,6 +36,9 @@ public class User implements UserDetails {
 
     @Column(name = "eh_admin")
     private boolean ehAdmin;
+
+    public User() {
+    }
 
     public User(Integer id, String name, String cpf, String password, LocalDateTime creationDate, LocalDateTime updateDate, boolean ehAdmin) {
         this.id = id;
@@ -138,6 +140,10 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    public void setId(int i) {
+
     }
 }
 

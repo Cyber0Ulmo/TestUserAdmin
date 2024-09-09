@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Table(name = "emails")
 @Entity
-@NoArgsConstructor
+
 public class Email {
 
     @Id
@@ -26,6 +26,9 @@ public class Email {
 
     @Column(name = "user_id")
     private Integer userId;
+
+    public Email() {
+    }
 
     public Email(String email, Integer userId) {
         this.email = email;
