@@ -7,7 +7,6 @@ import com.br.Empiricus.repository.interfaces.RepositoryEmail;
 import com.br.Empiricus.services.interfaces.ServiceEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,19 +31,11 @@ public class ServiceEmailImpl implements ServiceEmail {
         return emails;
     }
 
-    private Email get(String email){
-        Email emailToGet = repository.findByEmail(email);
-        if (emailToGet == null){
-            throw new EmailNotFoundException(" email não encontrado.");
-        }
-        return emailToGet;
-    }
-
     @Override
     public void update(String email, String newEmail){
         Email emailToUpdate = repository.findByEmail(email);
         if (emailToUpdate == null) {
-            throw new EmailNotFoundException("Email not found: " + email);
+            throw new EmailNotFoundException("Email não encontrado: " + email);
         }
         emailToUpdate.setEmail(newEmail);
         emailToUpdate.setCreationDate(LocalDateTime.now());

@@ -60,12 +60,13 @@ public class ServiceEmailTest {
     @Test
     public void testUpdateSuccess() {
         int id = 1;
+        String oldEmail = "old@example.com";
         String newEmail = "new@example.com";
-        Email email = new Email("old@example.com", 1);
+        Email email = new Email(oldEmail, id);
         email.setId(id);
 
-        when(repository.findById(id)).thenReturn(Optional.of(email));
-        serviceEmail.update(email.getEmail(), newEmail);
+        when(repository.findByEmail(oldEmail)).thenReturn((email));
+        serviceEmail.update(oldEmail, newEmail);
 
         assertEquals(newEmail, email.getEmail());
     }
@@ -74,13 +75,14 @@ public class ServiceEmailTest {
     @Test
     public void testDeleteSuccess() {
         int id = 1;
-        Email email = new Email("test@example.com", 1);
+        Email email = new Email("test@example.com", id);
         email.setId(id);
 
-        when(repository.findById(id)).thenReturn(Optional.of(email));
-        serviceEmail.delete(email.getEmail());
+        when(repository.findByEmail("test@example.com")).thenReturn(email);
+        serviceEmail.delete("test@example.com");
 
-        verify(repository, times(1)).deleteById(id);
+        verify(repository, times(1)).delete(email);
     }
 }
+
 

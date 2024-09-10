@@ -1,9 +1,7 @@
 package com.br.Empiricus.controllers;
 
 import com.br.Empiricus.domain.DTO.UserDTO;
-import com.br.Empiricus.domain.DTO.UserResponseDTO;
 import com.br.Empiricus.domain.exceptions.UserNotFoundException;
-import com.br.Empiricus.domain.user.User;
 import com.br.Empiricus.services.interfaces.ServiceUser;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -16,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class ControllerUserAdmin {
 
+    @Autowired
+    private ServiceUser userService;
+
     @PostMapping
     public ResponseEntity resgister(@RequestBody @Valid UserDTO userData){
         try {
@@ -26,9 +27,6 @@ public class ControllerUserAdmin {
             return ResponseEntity.internalServerError().build();
         }
     }
-
-    @Autowired
-    private ServiceUser userService;
 
     @GetMapping("/getbycpf")
     public ResponseEntity getUser(@RequestParam @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "O CPF deve estar no formato XXX.XXX.XXX-XX") String cpf) {
