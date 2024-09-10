@@ -1,6 +1,5 @@
 package com.br.Empiricus.controllers;
 
-
 import com.br.Empiricus.domain.DTO.EmailDTO;
 import com.br.Empiricus.domain.DTO.EmailUpdateDTO;
 import com.br.Empiricus.domain.DTO.UserResponseDTO;
@@ -86,7 +85,7 @@ public class ControllerEmail {
             return ResponseEntity.noContent().build();
         } catch (EmailNotFoundException emiEx){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Não há emails para esse usuário com o ID especificado.");
+                    .body("Não há emails para esse usuário especificado.");
         } catch (Exception ex){
             return ResponseEntity.internalServerError().build();
         }

@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface ServiceUser extends UserDetailsService {
 
-    String passwordEcrypter(String password);
     void registerUser(UserDTO userData);
     UserResponseDTO getUserByCpf(String cpf);
+    String passwordEcrypter(String password);
     List<UserResponseDTO> getUsers();
     void updateUser(UserDTO user);
     void deleteUser(String cpf);

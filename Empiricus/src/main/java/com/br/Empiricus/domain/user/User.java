@@ -1,7 +1,6 @@
 package com.br.Empiricus.domain.user;
 
 import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

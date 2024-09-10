@@ -23,8 +23,9 @@ public class ServiceUserImpl implements ServiceUser {
     private RepositoryUser repository;
 
     @Override
-    public UserDetails loadUserByUsername(String cpf) throws UsernameNotFoundException {
-        return repository.findByCpf(cpf);
+    public void registerUser(UserDTO userData){
+        User user = new User(userData.name(), userData.cpf(), this.passwordEcrypter(userData.password()), userData.ehAdmin());
+        repository.save(user);
     }
 
     @Override
@@ -35,14 +36,13 @@ public class ServiceUserImpl implements ServiceUser {
     }
 
     @Override
-    public String passwordEcrypter(String password){
-        return new BCryptPasswordEncoder().encode(password);
+    public UserDetails loadUserByUsername(String cpf) throws UsernameNotFoundException {
+        return repository.findByCpf(cpf);
     }
 
     @Override
-    public void registerUser(UserDTO userData){
-        User user = new User(userData.name(), userData.cpf(), this.passwordEcrypter(userData.password()), userData.ehAdmin());
-        repository.save(user);
+    public String passwordEcrypter(String password){
+        return new BCryptPasswordEncoder().encode(password);
     }
 
     @Override
@@ -50,10 +50,18 @@ public class ServiceUserImpl implements ServiceUser {
         List<User> users = repository.findAll();
         List<UserResponseDTO> usersResponseDTO = new ArrayList<>();
 
-        for (int i = 0; i< users.size(); i++){
-            UserResponseDTO user = new UserResponseDTO(users.get(i).getId(), users.get(i).getName(), users.get(i).getCpf(), users.get(i).getPassword(), users.get(i).getCreationDate(), users.get(i).getUpdateDate(), users.get(i).isEhAdmin());
+        users.forEach(userEntity -> {
+            UserResponseDTO user = new UserResponseDTO(
+                    userEntity.getId(),
+                    userEntity.getName(),
+                    userEntity.getCpf(),
+                    userEntity.getPassword(),
+                    userEntity.getCreationDate(),
+                    userEntity.getUpdateDate(),
+                    userEntity.isEhAdmin()
+            );
             usersResponseDTO.add(user);
-        }
+        });
         return usersResponseDTO;
     }
 
