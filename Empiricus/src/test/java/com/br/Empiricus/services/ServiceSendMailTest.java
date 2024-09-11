@@ -15,9 +15,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+
 
 @SpringBootTest
 public class ServiceSendMailTest {
@@ -36,29 +35,29 @@ public class ServiceSendMailTest {
 
     @BeforeEach
     void setUp() {
-        User adminUser = new User( 1 ,"Admin User", "12345678901", "password",LocalDateTime.now(), LocalDateTime.now(), true);
+        User adminUser = new User(1, "Admin User", "12345678901", "password", LocalDateTime.now(), LocalDateTime.now(), true);
 
         Email adminEmail = new Email("admin@example.com", adminUser.getId());
         adminEmail.setCreationDate(LocalDateTime.now());
         adminEmail.setUpdateDate(LocalDateTime.now());
 
         when(userRepository.findByEhAdmin(true)).thenReturn(List.of(adminUser));
-        when(emailRepository.findByUserId(12)).thenReturn(List.of(adminEmail));
+        when(emailRepository.findByUserId(1)).thenReturn(List.of(adminEmail)); // Corrigir ID
     }
 
     @Test
     void testSendMailNotification() {
-        doNothing().when(javaMailSender).send(Mockito.any(SimpleMailMessage.class));
-        serviceSendMail.sendMailNotification( "12345678901", "admin@example.com");
-        verify(javaMailSender, times(1)).send(Mockito.any(SimpleMailMessage.class));
+        // Remova a anotação @Async para o teste
+        serviceSendMail.sendMailNotification("12345678901", "admin@example.com");
+        verify(javaMailSender, times(1)).send(any(SimpleMailMessage.class));
     }
 
     @Test
     void testSendMailNotificationWithError() {
-        doThrow(new RuntimeException("Error sending email")).when(javaMailSender).send(Mockito.any(SimpleMailMessage.class));
-        serviceSendMail.sendMailNotification( "12345678901", "admin@example.com");
-
-        verify(javaMailSender, times(1)).send(Mockito.any(SimpleMailMessage.class));
+        doThrow(new RuntimeException("Error sending email")).when(javaMailSender).send(any(SimpleMailMessage.class));
+        // Remova a anotação @Async para o teste
+        serviceSendMail.sendMailNotification("12345678901", "admin@example.com");
+        verify(javaMailSender, times(1)).send(any(SimpleMailMessage.class));
     }
 }
 

@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  app:
+    image: testeemp
+    container_name: emp-app01
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
