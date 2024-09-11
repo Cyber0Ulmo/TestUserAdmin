@@ -1,0 +1,367 @@
+{
+	"info": {
+		"_postman_id": "b286a322-b4d2-4e66-a021-91fd3f7fd50e",
+		"name": "Test Empiricus",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32546715",
+		"_collection_link": "https://testteam-1165.postman.co/workspace/TestTeam-Workspace~93adb910-7b15-45ef-9a39-fbc3e5bd9396/collection/32546715-b286a322-b4d2-4e66-a021-91fd3f7fd50e?action=share&source=collection_link&creator=32546715"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDEuMDAyLjAwNy05MCIsImV4cCI6MTcyNTkzMTMxNSwiaWF0IjoxNzI1OTIwNTE1fQ.aj58eqkxyEeGBqkJ5vfcLG4sMwvmQBxnSM5izy-TeLI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"mushu2\",\r\n\t\"cpf\": \"100.200.700-92\",\r\n\t\"password\": \"Senha02\",\r\n\t\"ehAdmin\": \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDEuMDAyLjAwNy05MCIsImV4cCI6MTcyNTkyMDM1NSwiaWF0IjoxNzI1OTA5NTU1fQ.qpB7crY4_96mvtJcC4sECPiRsgwzBYJvKNxxhGC2XXY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/getall",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"getall"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByCpf",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDEuMDAyLjAwNy05MCIsImV4cCI6MTcyNTg2MDU3MCwiaWF0IjoxNzI1ODQ5NzcwfQ.usYmq8wMuJW2i9kZTODP25oclreMRCL4fe7nMYxWwX0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/getbycpf?cpf=100.200.700-90",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"getbycpf"
+							],
+							"query": [
+								{
+									"key": "cpf",
+									"value": "100.200.700-90"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDEuMDAyLjAwNy05MCIsImV4cCI6MTcyNTkyMDM1NSwiaWF0IjoxNzI1OTA5NTU1fQ.qpB7crY4_96mvtJcC4sECPiRsgwzBYJvKNxxhGC2XXY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"o garnde dragão de pedra\",\r\n\t\"cpf\": \"100.200.700-90\",\r\n\t\"password\": \"01Senha\",\r\n\t\"ehAdmin\": \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"cpf\": \"001.002.007-90\",\r\n\t\"password\" : \"strong_password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Email",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDEuMDAyLjAwNy05MCIsImV4cCI6MTcyNTkzMTMxNSwiaWF0IjoxNzI1OTIwNTE1fQ.aj58eqkxyEeGBqkJ5vfcLG4sMwvmQBxnSM5izy-TeLI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"teste5@gmail.com\",\r\n\t\"cpf\": \"100.200.700-91\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/emails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"emails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetByCpf",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDEuMDAyLjAwNy05MCIsImV4cCI6MTcyNTkzMTMxNSwiaWF0IjoxNzI1OTIwNTE1fQ.aj58eqkxyEeGBqkJ5vfcLG4sMwvmQBxnSM5izy-TeLI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/emails?cpf=100.200.700-91",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"emails"
+							],
+							"query": [
+								{
+									"key": "cpf",
+									"value": "100.200.700-91"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDEuMDAyLjAwNy05MCIsImV4cCI6MTcyNTkzMTMxNSwiaWF0IjoxNzI1OTIwNTE1fQ.aj58eqkxyEeGBqkJ5vfcLG4sMwvmQBxnSM5izy-TeLI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"email\": \"teste5@gmail.com\",\r\n\t\"cpf\": \"100.200.700-91\",\r\n    \"newEmail\": \"augustopcarli@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/emails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"emails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDEuMDAyLjAwNy05MCIsImV4cCI6MTcyNTkzMjE1MywiaWF0IjoxNzI1OTIxMzUzfQ.IOCO4hhxZ0eQXVxtPMhQ1bgH3euGcABhdUFuIVzk8I4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"augustopcarli@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/emails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"emails"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
